@@ -13,14 +13,16 @@ class MainActivity : AppCompatActivity(), NewsItemListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.recyclerViewList.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        binding.recyclerViewList.layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val items = fetchData()
         val adapter: NewsListAdapter = NewsListAdapter(items, this)
         binding.recyclerViewList.adapter = adapter
     }
+
     private fun fetchData(): ArrayList<String> {
         val list = ArrayList<String>()
-        for(i in 0 until 100) {
+        for (i in 0 until 100) {
             list.add("Item $i")
         }
         return list
