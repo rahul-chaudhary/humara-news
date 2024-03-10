@@ -1,10 +1,14 @@
 package com.example.humaranews
 
+import android.R
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -70,9 +74,27 @@ class MainActivity : AppCompatActivity(), NewsItemListener {
 
 
     override fun onNewsItemClicked(item: News) {
-        val url = item.url
-        val intent = CustomTabsIntent.Builder()
+        // get the current toolbar background color (this might work differently in your app)
+        @ColorInt val colorPrimaryLight =
+            ContextCompat.getColor(this@MainActivity, R.color.holo_red_dark)
+        @ColorInt val colorPrimaryDark =
+            ContextCompat.getColor(this@MainActivity, R.color.darker_gray)
+
+        val intent = CustomTabsIntent.Builder() // set the default color scheme
+            .setDefaultColorSchemeParams(
+                CustomTabColorSchemeParams.Builder()
+                    .setToolbarColor(colorPrimaryLight)
+                    .build()
+            ) // set the alternative dark color scheme
+            .setColorSchemeParams(
+                CustomTabsIntent.COLOR_SCHEME_DARK, CustomTabColorSchemeParams.Builder()
+                    .setToolbarColor(colorPrimaryDark)
+                    .build()
+            )
             .build()
+        val url = item.url
+//        val intent = CustomTabsIntent.Builder()
+//            .build()
         intent.launchUrl(this@MainActivity, Uri.parse(url))
     }
 
