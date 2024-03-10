@@ -3,8 +3,10 @@ package com.example.humaranews
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 class NewsListAdapter(
     private val listener: NewsItemListener
@@ -22,7 +24,8 @@ class NewsListAdapter(
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val currentItem = items[position]
         holder.titleView.text = currentItem.title
-
+        holder.authorView.text = currentItem.author
+        Glide.with(holder.itemView.context).load(currentItem.imageUrl).into(holder.newsImageView)
         holder.itemView.setOnClickListener {
             listener.onNewsItemClicked(items[holder.adapterPosition])
         }
@@ -39,8 +42,9 @@ class NewsListAdapter(
 }
 
 class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val titleView: TextView = itemView.findViewById(R.id.title)
-
+    val titleView: TextView = itemView.findViewById(R.id.newsTitle)
+    val newsImageView: ImageView = itemView.findViewById(R.id.newsImage)
+    val authorView: TextView = itemView.findViewById(R.id.newsAuthor)
 }
 
 interface NewsItemListener {

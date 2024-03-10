@@ -56,4 +56,7 @@ dependencies {
     implementation ("com.android.volley:volley:1.2.1")
     //glide
     implementation ("com.github.bumptech.glide:glide:4.16.0")
+    //chrome custom tabs
+    implementation ("androidx.browser:browser:1.8.0")
+
 }

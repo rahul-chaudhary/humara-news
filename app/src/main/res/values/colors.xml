@@ -8,4 +8,19 @@
     <color name="pink">#E91E63</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="black_light">#33000000</color>
+    <color name="clrLightGrey">#FFF5F5F5</color>
 </resources>
+
+<!--    val Purple80 = Color(0xFFD0BCFF)-->
+<!--    val PurpleGrey80 = Color(0xFFCCC2DC)-->
+<!--    val Pink80 = Color(0xFFEFB8C8)-->
+<!--    val Purple40 = Color(0xFF6650a4)-->
+<!--    val PurpleGrey40 = Color(0xFF625b71)-->
+<!--    val Pink40 = Color(0xFF7D5260)-->
+<!--    val clrLightGrey = Color(0xFFF5F5F5)-->
+<!--    val clrOrange = Color(0xFFFF3636)-->
+<!--    val clrBlack = Color.Black-->
+<!--    val clrBlackLight = Color(0x66000000)-->
+
+<!--    val clrLightGreyTrans = Color(0x1AF5F5F5)-->
+<!--    val clrLightGreyTrans2 = Color(0xBFF5F5F5)-->

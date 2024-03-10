@@ -6,7 +6,6 @@ import android.util.Log
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.StringRequest
 import com.example.humaranews.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), NewsItemListener {
@@ -20,13 +19,13 @@ class MainActivity : AppCompatActivity(), NewsItemListener {
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
          fetchData()
         mAdapter = NewsListAdapter(this)
-        val adapter = NewsListAdapter( this)
-        binding.recyclerViewList.adapter = adapter
+//        val adapter = NewsListAdapter( this)
+        binding.recyclerViewList.adapter = mAdapter
     }
 
     private fun fetchData(){
         val apiKey = "de85900fb6ad4597a302037d0e4e9018"
-        val url = "https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=$apiKey"
+        val url = "https://newsapi.org/v2/top-headlines?country=in&category=business"
         val jsonObjectRequest = object : JsonObjectRequest(
             Request.Method.GET,
             url,
@@ -51,7 +50,7 @@ class MainActivity : AppCompatActivity(), NewsItemListener {
                 else if(it.has("status") && it.getString("status") == "error"){
                     Log.d("Response log", "Error is : ${it.getString("message")}")
                 }
-                else Log.d("Response log", "Error is : Unknown")
+                else Log.d("Response log", "Error is : $it")
             },
             { error ->
                 Log.d("Response log", "Error is : $error")
@@ -60,6 +59,7 @@ class MainActivity : AppCompatActivity(), NewsItemListener {
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()
                 headers["User-Agent"] = "Mozilla/5.0"
+                headers["Authorization"] = "Bearer $apiKey"
                 return headers
             }
         }
