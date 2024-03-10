@@ -91,6 +91,9 @@ class MainActivity : AppCompatActivity(), NewsItemListener {
                     .setToolbarColor(colorPrimaryDark)
                     .build()
             )
+//            .setStartAnimations(this@MainActivity, R.anim.bounce_interpolator, R.anim.accelerate_decelerate_interpolator)
+            .setStartAnimations(this@MainActivity, R.anim.slide_in_left, R.anim.slide_out_right)
+            .setExitAnimations(this@MainActivity, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
             .build()
         val url = item.url
 //        val intent = CustomTabsIntent.Builder()
