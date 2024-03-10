@@ -3,10 +3,10 @@ package com.example.humaranews
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.StringRequest
 import com.example.humaranews.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), NewsItemListener {
@@ -20,38 +20,54 @@ class MainActivity : AppCompatActivity(), NewsItemListener {
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
          fetchData()
         mAdapter = NewsListAdapter(this)
-        val adapter: NewsListAdapter = NewsListAdapter( this)
+        val adapter = NewsListAdapter( this)
         binding.recyclerViewList.adapter = adapter
     }
 
     private fun fetchData(){
         val apiKey = "de85900fb6ad4597a302037d0e4e9018"
-        val url = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=$apiKey"
-        val jsonObjectRequest = JsonObjectRequest(
+        val url = "https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=$apiKey"
+        val jsonObjectRequest = object : JsonObjectRequest(
             Request.Method.GET,
             url,
             null,
             {
-                val newsJsonArray = it.getJSONArray("articles")
-                val newsArray = ArrayList<News>()
-                for(i in 0 until newsJsonArray.length()){
-                    val newsJsonObject = newsJsonArray.getJSONObject(i)
-                    val news = News(
-                        newsJsonObject.getString("title"),
-                        newsJsonObject.getString("author"),
-                        newsJsonObject.getString("url"),
-                        newsJsonObject.getString("urlToImage")
-                    )
-                    newsArray.add(news)
+                if (it.has("status") && it.getString("status") == "ok") {
+                    Log.d("Response log" ," Response is : $it")
+                    val newsJsonArray = it.getJSONArray("articles")
+                    val newsArray = ArrayList<News>()
+                    for(i in 0 until newsJsonArray.length()){
+                        val newsJsonObject = newsJsonArray.getJSONObject(i)
+                        val news = News(
+                            newsJsonObject.getString("title"),
+                            newsJsonObject.getString("author"),
+                            newsJsonObject.getString("url"),
+                            newsJsonObject.getString("urlToImage")
+                        )
+                        newsArray.add(news)
+                    }
+                    mAdapter.updateNews(newsArray)
                 }
-             mAdapter.updateNews(newsArray)
+                else if(it.has("status") && it.getString("status") == "error"){
+                    Log.d("Response log", "Error is : ${it.getString("message")}")
+                }
+                else Log.d("Response log", "Error is : Unknown")
             },
             { error ->
                 Log.d("Response log", "Error is : $error")
             }
-        )
+        ) {
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+                headers["User-Agent"] = "Mozilla/5.0"
+                return headers
+            }
+        }
+
         MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest)
     }
+
+
 
     override fun onNewsItemClicked(item: News) {
 
