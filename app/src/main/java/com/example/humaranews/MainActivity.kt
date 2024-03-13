@@ -32,7 +32,8 @@ class MainActivity : AppCompatActivity(), NewsItemListener {
 
     private fun fetchData() {
         val apiKey = "de85900fb6ad4597a302037d0e4e9018"
-        val url = "https://newsapi.org/v2/top-headlines?country=in&category=business"
+        val category = "technology"
+        val url = "https://newsapi.org/v2/top-headlines?country=in&category=$category"
         val jsonObjectRequest = object : JsonObjectRequest(
             Request.Method.GET,
             url,
@@ -102,3 +103,4 @@ class MainActivity : AppCompatActivity(), NewsItemListener {
     }
 
 }
+//TODO 1. Add chips to filter country and category of the news
